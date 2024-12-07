@@ -29,33 +29,26 @@ To set up the project locally, follow these steps:
 
 Clone the Repository:
 
-bash
-Copy code
 git clone https://github.com/your-username/Project.git
 Navigate to the Project Directory:
 
-bash
-Copy code
 cd Project
 Install Required Packages:
 
 Install the necessary libraries by running:
 
-bash
-Copy code
+
 pip install -r requirements.txt
 Running the Application
 1. Data Collection
 To fetch stock market data for a specific ticker symbol, run:
 
-bash
-Copy code
+
 python "Data Scraping.py"
 2. Stock Price Prediction
 To run the machine learning model and launch the interactive Streamlit app, execute:
 
-bash
-Copy code
+
 streamlit run "Prediction Model.py"
 Required Libraries
 This project uses the following libraries:
@@ -68,8 +61,7 @@ streamlit: To build a user-friendly web interface.
 plotly: For interactive and dynamic visualizations.
 Install all the required libraries at once by running:
 
-bash
-Copy code
+
 pip install -r requirements.txt
 How the Application Works
 Data Collection
