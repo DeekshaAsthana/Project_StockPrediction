@@ -6,8 +6,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, classification_report, confusion_matrix
 from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
-import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
 from io import BytesIO
 
 # Page Configurations
@@ -95,48 +95,32 @@ if ticker and run_model:
             # Confusion Matrix Visualization
             with st.expander("📊 Confusion Matrix", expanded=True):
                 conf_matrix = confusion_matrix(y_test, y_pred)
-                fig, ax = plt.subplots(figsize=(6, 4))
-                sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=['Down', 'Up'], yticklabels=['Down', 'Up'])
-                plt.xlabel("Predicted")
-                plt.ylabel("Actual")
-                plt.title("Confusion Matrix")
-                st.pyplot(fig)
-
-                # Save confusion matrix image for download
-                img_buf = BytesIO()
-                fig.savefig(img_buf, format="png")
-                img_buf.seek(0)
-                st.download_button(
-                    label="Download Confusion Matrix",
-                    data=img_buf,
-                    file_name="confusion_matrix.png",
-                    mime="image/png"
-                )
+                fig = px.imshow(conf_matrix, 
+                                labels=dict(x="Predicted", y="Actual", color="Count"),
+                                x=['Down', 'Up'], y=['Down', 'Up'], 
+                                text_auto=True, color_continuous_scale="Blues")
+                fig.update_layout(title_text="Confusion Matrix", title_x=0.5)
+                st.plotly_chart(fig, use_container_width=True)
 
             # Feature Importance
             with st.expander("🔑 Feature Importance", expanded=True):
+                # Display Table
                 feature_importances = pd.DataFrame({
                     'Feature': features,
                     'Importance': rf_model.feature_importances_
                 }).sort_values(by='Importance', ascending=False)
-                st.dataframe(feature_importances)
+                st.markdown("<h4 style='color: #2e86c1;'>Feature Importance Table</h4>", unsafe_allow_html=True)
+                st.dataframe(feature_importances, use_container_width=True)
 
                 # Feature Importance Visualization
-                fig, ax = plt.subplots(figsize=(8, 6))
-                sns.barplot(data=feature_importances, x='Importance', y='Feature', palette='viridis')
-                plt.title("Feature Importances")
-                st.pyplot(fig)
-
-                # Save feature importance plot for download
-                img_buf = BytesIO()
-                fig.savefig(img_buf, format="png")
-                img_buf.seek(0)
-                st.download_button(
-                    label="Download Feature Importance Plot",
-                    data=img_buf,
-                    file_name="feature_importance.png",
-                    mime="image/png"
-                )
+                fig = px.bar(feature_importances, 
+                             x='Importance', y='Feature', 
+                             orientation='h', 
+                             color='Importance', 
+                             color_continuous_scale='viridis',
+                             title="Feature Importance")
+                fig.update_layout(xaxis_title="Importance", yaxis_title="Feature", title_x=0.5)
+                st.plotly_chart(fig, use_container_width=True)
 
             # Combine data and predictions for download as CSV
             data['Predicted Movement'] = rf_model.predict(scaler.transform(data[features]))
