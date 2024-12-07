@@ -1,5 +1,3 @@
-# Project_StockPrediction
-
 # 📊 Stock Market Apps
 
 This repository contains two Streamlit applications designed for analyzing and predicting stock market data:
@@ -28,7 +26,7 @@ The **Reddit Stock Market Data Scraper** fetches the latest posts from a stock m
 
 #### 1. Clone the Repository
 
-```bash
+bash
 git clone https://github.com/yourusername/stock-market-apps.git
 cd stock-market-apps
 2. Install Dependencies
@@ -98,3 +96,4 @@ If the app shows errors related to missing libraries, run the pip install comman
 Stock Movement Prediction
 Ensure the stock ticker symbol is valid and available on Yahoo Finance.
 If there are errors in fetching or training the model, check the date range and ticker data.
+
